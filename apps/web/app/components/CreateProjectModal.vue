@@ -28,8 +28,11 @@ async function handleSubmit() {
 			sourceLocale: sourceLocale.value,
 		});
 		emit("created", project);
+		emit("close");
+		// Reset form
 		name.value = "";
 		slug.value = "";
+		sourceLocale.value = "en";
 	} catch (e: any) {
 		error.value = e.message || "Failed to create project";
 	} finally {

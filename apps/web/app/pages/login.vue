@@ -2,6 +2,7 @@
 definePageMeta({ layout: "auth" });
 
 const { signIn } = useAuth();
+const notify = useNotification();
 
 const email = ref("");
 const password = ref("");
@@ -15,11 +16,14 @@ async function handleSubmit() {
 		const { error: authError } = await signIn(email.value, password.value);
 		if (authError) {
 			error.value = authError.message || "Login failed";
+			notify.error("Login failed", authError.message || "Invalid email or password");
 		} else {
+			notify.success("Welcome back!", "You have been signed in successfully");
 			navigateTo("/projects");
 		}
 	} catch (e: any) {
 		error.value = e.message || "Login failed";
+		notify.error("Login failed", e.message || "An error occurred");
 	} finally {
 		loading.value = false;
 	}
@@ -63,8 +67,7 @@ async function handleSubmit() {
 
 		<template #footer>
 			<p class="text-center text-sm text-gray-500 dark:text-gray-300">
-				Don't have an account?
-				<NuxtLink to="/register" class="text-primary font-medium dark:text-primary-400">Sign Up</NuxtLink>
+				Need access? Contact your administrator.
 			</p>
 		</template>
 	</UCard>

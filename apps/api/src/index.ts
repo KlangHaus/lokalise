@@ -13,7 +13,11 @@ import publicTranslationRoutes from "./routes/public/translations";
 const app = new Hono<AppEnv>();
 
 // Global middleware
-app.use("*", logger());
+// Disable logger in dev - it's slow
+if (process.env.NODE_ENV === "production") {
+	app.use("*", logger());
+}
+
 app.use(
 	"*",
 	cors({

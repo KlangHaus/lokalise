@@ -10,14 +10,17 @@
   "scripts": {
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "seed": "bun run src/seed.ts"
   },
   "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.0",
+    "bcrypt": "^6.0.0",
     "drizzle-orm": "^0.38.0",
-    "postgres": "^3.4.0",
-    "@paralleldrive/cuid2": "^2.2.0"
+    "postgres": "^3.4.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "drizzle-kit": "^0.30.0",
     "typescript": "^5.7.0"
   }

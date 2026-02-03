@@ -13,24 +13,12 @@ export default defineNuxtConfig({
 		},
 	},
 
-	// Proxy API requests to the backend in development
-	nitro: {
-		devProxy: {
-			"/api/auth": {
-				target: (process.env.NUXT_PUBLIC_API_URL || "http://localhost:3000") + "/api/auth",
-				changeOrigin: true,
-			},
-			"/api/v1": {
-				target: (process.env.NUXT_PUBLIC_API_URL || "http://localhost:3000") + "/api/v1",
-				changeOrigin: true,
-			},
-			"/api/public": {
-				target: (process.env.NUXT_PUBLIC_API_URL || "http://localhost:3000") + "/api/public",
-				changeOrigin: true,
-			},
-			"/api/health": {
-				target: (process.env.NUXT_PUBLIC_API_URL || "http://localhost:3000") + "/api/health",
-				changeOrigin: true,
+	// Disable dev proxy - it adds massive latency
+	// Use direct API calls instead with CORS
+	vite: {
+		server: {
+			hmr: {
+				overlay: false, // Disable error overlay for faster dev
 			},
 		},
 	},

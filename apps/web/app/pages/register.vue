@@ -1,30 +1,8 @@
 <script setup lang="ts">
 definePageMeta({ layout: "auth" });
 
-const { signUp } = useAuth();
-
-const name = ref("");
-const email = ref("");
-const password = ref("");
-const error = ref("");
-const loading = ref(false);
-
-async function handleSubmit() {
-	error.value = "";
-	loading.value = true;
-	try {
-		const { error: authError } = await signUp(email.value, password.value, name.value);
-		if (authError) {
-			error.value = authError.message || "Registration failed";
-		} else {
-			navigateTo("/projects");
-		}
-	} catch (e: any) {
-		error.value = e.message || "Registration failed";
-	} finally {
-		loading.value = false;
-	}
-}
+// Registration is disabled - redirect to login
+navigateTo("/login");
 </script>
 
 <template>

@@ -8,6 +8,13 @@
       "when": 1770055139164,
       "tag": "0000_wild_madame_web",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1770119843420,
+      "tag": "0001_productive_wonder_man",
+      "breakpoints": true
     }
   ]
 }

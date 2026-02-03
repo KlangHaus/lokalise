@@ -9,25 +9,32 @@ const overwrite = ref(false);
 const jsonContent = ref("");
 const loading = ref(false);
 const error = ref("");
-const result = ref<{ created: number; updated: number; total: number } | null>(null);
 
 async function handleImport() {
 	error.value = "";
-	result.value = null;
 	loading.value = true;
 
 	try {
 		const parsed = JSON.parse(jsonContent.value);
-		const res = await api.importTranslations(props.projectId, {
+		await api.importTranslations(props.projectId, {
 			locale: locale.value,
 			namespace: namespace.value,
 			translations: parsed,
 			overwrite: overwrite.value,
 		});
-		result.value = res;
 		emit("imported");
+		emit("close");
+		// Reset form
+		jsonContent.value = "";
+		locale.value = "en";
+		namespace.value = "default";
+		overwrite.value = false;
 	} catch (e: any) {
-		error.value = e.message || "Import failed";
+		if (e.message.includes("JSON")) {
+			error.value = "Invalid JSON format";
+		} else {
+			error.value = e.message || "Import failed";
+		}
 	} finally {
 		loading.value = false;
 	}
@@ -52,7 +59,6 @@ function handleFile(event: Event) {
 
 		<form @submit.prevent="handleImport" class="p-4 space-y-4">
 			<UAlert v-if="error" color="error" :title="error" />
-			<UAlert v-if="result" color="success" :title="`Imported: ${result.created} created, ${result.updated} updated (${result.total} total)`" />
 
 			<div class="grid grid-cols-2 gap-4">
 				<UFormField label="Locale">

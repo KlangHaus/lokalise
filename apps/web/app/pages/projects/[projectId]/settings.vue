@@ -9,11 +9,13 @@ const { data: projectData, refresh } = await useAsyncData(`project-settings-${pr
 
 const project = computed(() => projectData.value?.project);
 const copied = ref(false);
+const notify = useNotification();
 
 function copyApiKey() {
 	if (!project.value?.apiKey) return;
 	navigator.clipboard.writeText(project.value.apiKey);
 	copied.value = true;
+	notify.success("API key copied", "The API key has been copied to your clipboard");
 	setTimeout(() => (copied.value = false), 2000);
 }
 

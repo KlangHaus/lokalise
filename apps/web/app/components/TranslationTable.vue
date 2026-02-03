@@ -58,12 +58,8 @@ async function saveTranslation(keyId: string, localeCode: string, value: string)
 	const locale = locales.value.find((l: any) => l.code === localeCode);
 	if (!locale) return;
 
-	try {
-		await api.updateTranslation(props.projectId, keyId, locale.id, { value });
-		await refresh();
-	} catch (e) {
-		console.error("Failed to save translation", e);
-	}
+	await api.updateTranslation(props.projectId, keyId, locale.id, { value });
+	await refresh();
 }
 
 // Add key
@@ -73,17 +69,14 @@ const newKeyNamespace = ref("default");
 
 async function addKey() {
 	if (!newKeyName.value) return;
-	try {
-		await api.createKey(props.projectId, {
-			key: newKeyName.value,
-			namespace: newKeyNamespace.value,
-		});
-		newKeyName.value = "";
-		showAddKey.value = false;
-		await refresh();
-	} catch (e) {
-		console.error("Failed to add key", e);
-	}
+	await api.createKey(props.projectId, {
+		key: newKeyName.value,
+		namespace: newKeyNamespace.value,
+	});
+	newKeyName.value = "";
+	newKeyNamespace.value = "default";
+	showAddKey.value = false;
+	await refresh();
 }
 
 // Add locale
@@ -93,24 +86,20 @@ const newLocaleName = ref("");
 
 async function addLocale() {
 	if (!newLocaleCode.value || !newLocaleName.value) return;
-	try {
-		await api.createLocale(props.projectId, {
-			code: newLocaleCode.value,
-			name: newLocaleName.value,
-		});
-		newLocaleCode.value = "";
-		newLocaleName.value = "";
-		showAddLocale.value = false;
-		// Refresh everything
-		window.location.reload();
-	} catch (e) {
-		console.error("Failed to add locale", e);
-	}
+	await api.createLocale(props.projectId, {
+		code: newLocaleCode.value,
+		name: newLocaleName.value,
+	});
+	newLocaleCode.value = "";
+	newLocaleName.value = "";
+	showAddLocale.value = false;
+	// Refresh everything
+	window.location.reload();
 }
 
 // Delete key
-async function deleteKey(keyId: string) {
-	if (!confirm("Delete this key and all its translations?")) return;
+async function deleteKey(keyId: string, keyName: string) {
+	if (!confirm(`Delete "${keyName}" and all its translations?`)) return;
 	await api.deleteKey(props.projectId, keyId);
 	await refresh();
 }
@@ -188,7 +177,7 @@ async function deleteKey(keyId: string) {
 								variant="ghost"
 								color="error"
 								size="xs"
-								@click="deleteKey(row.keyId)"
+								@click="deleteKey(row.keyId, row.key)"
 							/>
 						</td>
 					</tr>

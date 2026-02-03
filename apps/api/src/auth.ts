@@ -16,4 +16,14 @@ export const auth = betterAuth({
 		}),
 	],
 	trustedOrigins: (process.env.CORS_ORIGINS || "http://localhost:3001").split(","),
+	// Optimize session handling
+	session: {
+		cookieCache: {
+			enabled: true,
+			maxAge: 5 * 60, // Cache for 5 minutes
+		},
+	},
+	advanced: {
+		generateId: false, // Use default ID generation (faster)
+	},
 });
