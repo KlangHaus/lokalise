@@ -4,6 +4,12 @@ The official React Native SDK for Lokalise Self-Hosted provides OTA translation 
 
 ## Installation
 
+**Status:** The SDK is currently in development and not yet published to npm.
+
+### Option 1: Wait for npm Release
+
+Once published, you'll be able to install via:
+
 ```bash
 npm install @lokalise/sdk-react @react-native-async-storage/async-storage
 ```
@@ -11,6 +17,31 @@ npm install @lokalise/sdk-react @react-native-async-storage/async-storage
 Or with yarn:
 ```bash
 yarn add @lokalise/sdk-react @react-native-async-storage/async-storage
+```
+
+Or with bun:
+```bash
+bun add @lokalise/sdk-react @react-native-async-storage/async-storage
+```
+
+### Option 2: Install from GitHub (coming soon)
+
+```bash
+npm install github:allanasp/lokalise#main
+```
+
+### Option 3: Local Development
+
+Clone the repository and build the SDK locally:
+
+```bash
+git clone https://github.com/allanasp/lokalise.git
+cd lokalise
+bun install
+bun run build
+
+# Then in your React Native project:
+npm install /path/to/lokalise/packages/sdk-react
 ```
 
 ## Basic Setup

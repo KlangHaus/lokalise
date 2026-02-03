@@ -29,6 +29,7 @@ export default defineConfig({
           items: [
             { text: 'What is Lokalise?', link: '/guide/introduction' },
             { text: 'Getting Started', link: '/guide/getting-started' },
+            { text: 'Complete Workflow', link: '/guide/complete-workflow' },
             { text: 'Architecture', link: '/guide/architecture' },
             { text: 'Performance', link: '/guide/performance' },
           ]
@@ -58,6 +59,12 @@ export default defineConfig({
             { text: 'Kubernetes', link: '/guide/deployment/kubernetes' },
             { text: 'Backup & Restore', link: '/guide/deployment/backup' },
             { text: 'Scaling', link: '/guide/deployment/scaling' },
+          ]
+        },
+        {
+          text: 'Publishing',
+          items: [
+            { text: 'Publishing SDK to npm', link: '/guide/publishing-sdk' },
           ]
         }
       ],

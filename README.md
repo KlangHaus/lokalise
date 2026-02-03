@@ -168,29 +168,48 @@ pnpm run dev
 5. **Add** locales (en, da, de, etc.)
 6. **Import** translations or create keys manually
 
+For a complete end-to-end walkthrough including React Native/Expo integration and seeing hot reload in action, see the [Complete Workflow Guide](docs/guide/complete-workflow.md).
+
 ---
 
 ## React Native SDK
 
-### Installation
+### Two Distribution Options
+
+**Option 1: Official Package (Recommended)**
+
+Install the official package maintained by the Lokalise team:
 
 ```bash
 npm install @lokalise/sdk-react @react-native-async-storage/async-storage
-# or
-yarn add @lokalise/sdk-react @react-native-async-storage/async-storage
 ```
+
+**Note:** The SDK is not yet published to npm. Current options:
+1. Wait for official npm release
+2. Use local installation (see [Complete Workflow Guide](docs/guide/complete-workflow.md))
+
+**Option 2: Fork and Publish Your Own**
+
+For organizations requiring full control:
+
+1. Fork this repository
+2. Customize the SDK for your needs
+3. Publish under your organization: `@your-company/lokalise-sdk-react`
+4. See [Publishing SDK Guide](docs/guide/publishing-sdk.md) for details
+
+Both options work with your self-hosted Lokalise backend - you simply configure the `baseUrl` to point to your server.
 
 ### Basic Usage
 
 ```tsx
 import { LokaliseProvider, useTranslation } from "@lokalise/sdk-react";
 
-// 1. Wrap your app
+// 1. Wrap your app with provider
 export default function App() {
   return (
     <LokaliseProvider
-      apiKey="lok_your_project_api_key"
-      baseUrl="https://your-lokalise-server.com"
+      apiKey="lok_your_project_api_key"           // From your project settings
+      baseUrl="https://your-lokalise-server.com"  // YOUR self-hosted instance
       defaultLocale="en"
       namespaces={["default"]}
       pollInterval={30000} // Check for updates every 30s
