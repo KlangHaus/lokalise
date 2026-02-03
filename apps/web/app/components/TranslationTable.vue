@@ -86,15 +86,22 @@ const newLocaleName = ref("");
 
 async function addLocale() {
 	if (!newLocaleCode.value || !newLocaleName.value) return;
-	await api.createLocale(props.projectId, {
-		code: newLocaleCode.value,
-		name: newLocaleName.value,
-	});
-	newLocaleCode.value = "";
-	newLocaleName.value = "";
-	showAddLocale.value = false;
-	// Refresh everything
-	window.location.reload();
+
+	try {
+		await api.createLocale(props.projectId, {
+			code: newLocaleCode.value,
+			name: newLocaleName.value,
+		});
+		newLocaleCode.value = "";
+		newLocaleName.value = "";
+		showAddLocale.value = false;
+
+		// Use Nuxt's refresh instead of hard reload to preserve session
+		await refreshNuxtData();
+		await refresh();
+	} catch (error) {
+		console.error("Failed to add locale:", error);
+	}
 }
 
 // Delete key

@@ -19,6 +19,8 @@ async function handleSubmit() {
 			notify.error("Login failed", authError.message || "Invalid email or password");
 		} else {
 			notify.success("Welcome back!", "You have been signed in successfully");
+			// Small delay so toast is visible before navigation
+			await new Promise((resolve) => setTimeout(resolve, 500));
 			navigateTo("/projects");
 		}
 	} catch (e: any) {

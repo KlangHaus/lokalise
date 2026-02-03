@@ -2,6 +2,13 @@
 const { session, signOut } = useAuth();
 const route = useRoute();
 const colorMode = useColorMode();
+const notify = useNotification();
+
+async function handleSignOut() {
+	await signOut();
+	notify.info("Signed out", "You have been signed out successfully");
+	navigateTo("/login");
+}
 </script>
 
 <template>
@@ -45,7 +52,7 @@ const colorMode = useColorMode();
 						variant="ghost"
 						color="neutral"
 						size="xs"
-						@click="signOut().then(() => navigateTo('/login'))"
+						@click="handleSignOut"
 					/>
 				</div>
 			</div>
