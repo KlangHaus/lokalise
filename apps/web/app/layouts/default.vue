@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { session, signOut } = useAuth();
+const { isSuperAdmin } = useAdmin();
 const route = useRoute();
 const colorMode = useColorMode();
 const notify = useNotification();
@@ -34,6 +35,16 @@ async function handleSignOut() {
 				>
 					<UIcon name="i-lucide-folder" />
 					Projects
+				</NuxtLink>
+
+				<NuxtLink
+					v-if="isSuperAdmin"
+					to="/admin/users"
+					class="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors"
+					:class="route.path.startsWith('/admin') ? 'bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-800'"
+				>
+					<UIcon name="i-lucide-shield-check" />
+					Admin
 				</NuxtLink>
 			</nav>
 

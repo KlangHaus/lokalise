@@ -11,10 +11,10 @@ const project = computed(() => projectData.value?.project);
 
 const showImport = ref(false);
 
-function onImported() {
+async function onImported() {
 	showImport.value = false;
 	// Force refresh of translation table
-	window.location.reload();
+	await refreshNuxtData();
 }
 
 // Export
@@ -40,31 +40,72 @@ async function handleExport() {
 
 <template>
 	<div class="p-8" v-if="project">
-		<div class="flex items-center justify-between mb-6">
+		<!-- Header -->
+		<div class="flex items-center gap-3 mb-8">
+			<NuxtLink to="/projects" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+				<UIcon name="i-lucide-arrow-left" />
+			</NuxtLink>
 			<div>
-				<div class="flex items-center gap-3">
-					<NuxtLink to="/projects" class="text-gray-400 hover:text-gray-600">
-						<UIcon name="i-lucide-arrow-left" />
-					</NuxtLink>
-					<h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ project.name }}</h1>
-				</div>
-				<p class="text-sm text-gray-500 mt-1 ml-9">{{ project.slug }}</p>
-			</div>
-
-			<div class="flex items-center gap-2">
-				<UButton variant="outline" icon="i-lucide-upload" @click="showImport = true">
-					Import
-				</UButton>
-				<UButton variant="outline" icon="i-lucide-download" @click="showExport = true">
-					Export
-				</UButton>
-				<NuxtLink :to="`/projects/${projectId}/settings`">
-					<UButton variant="ghost" icon="i-lucide-settings" />
-				</NuxtLink>
+				<h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ project.name }}</h1>
+				<p class="text-sm text-gray-500 dark:text-gray-400">{{ project.slug }}</p>
 			</div>
 		</div>
 
-		<TranslationTable :project-id="projectId" />
+		<!-- Project Info Card -->
+		<UCard class="mb-6">
+			<div class="flex items-center justify-between">
+				<div class="flex items-center gap-6">
+					<div>
+						<p class="text-sm text-gray-500 dark:text-gray-400">Source Language</p>
+						<p class="font-medium text-gray-900 dark:text-white">{{ project.sourceLocale }}</p>
+					</div>
+					<div class="h-8 w-px bg-gray-200 dark:bg-gray-700"></div>
+					<div>
+						<p class="text-sm text-gray-500 dark:text-gray-400">API Key</p>
+						<code class="text-xs font-mono text-gray-700 dark:text-gray-300">{{ project.apiKey.substring(0, 16) }}...</code>
+					</div>
+				</div>
+				<NuxtLink :to="`/projects/${projectId}/settings`">
+					<UButton variant="outline" icon="i-lucide-settings">
+						Settings
+					</UButton>
+				</NuxtLink>
+			</div>
+		</UCard>
+
+		<!-- Actions Card -->
+		<UCard class="mb-6">
+			<template #header>
+				<div class="flex items-center justify-between">
+					<div>
+						<h2 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+							<UIcon name="i-lucide-wrench" />
+							Actions
+						</h2>
+						<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Import and export translations</p>
+					</div>
+					<div class="flex items-center gap-2">
+						<UButton variant="outline" icon="i-lucide-upload" @click="showImport = true">
+							Import
+						</UButton>
+						<UButton variant="outline" icon="i-lucide-download" @click="showExport = true">
+							Export
+						</UButton>
+					</div>
+				</div>
+			</template>
+		</UCard>
+
+		<!-- Translations Card -->
+		<UCard>
+			<template #header>
+				<h2 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+					<UIcon name="i-lucide-languages" />
+					Translations
+				</h2>
+			</template>
+			<TranslationTable :project-id="projectId" />
+		</UCard>
 
 		<ImportModal
 			:open="showImport"

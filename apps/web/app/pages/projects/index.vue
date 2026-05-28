@@ -91,30 +91,46 @@ function onProjectCreated() {
 		<!-- Projects list -->
 		<div v-else>
 			<div class="flex items-center justify-between mb-8">
-				<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Projects</h1>
+				<div>
+					<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Projects</h1>
+					<p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage your translation projects</p>
+				</div>
 				<UButton icon="i-lucide-plus" @click="showCreateModal = true">
 					New Project
 				</UButton>
 			</div>
 
-			<div v-if="projects.length === 0" class="text-center py-20">
-				<UIcon name="i-lucide-folder-open" class="text-4xl text-gray-400 mb-4" />
-				<p class="text-gray-500 mb-4">No projects yet</p>
-				<UButton @click="showCreateModal = true">Create your first project</UButton>
+			<div v-if="projects.length === 0" class="max-w-md mx-auto mt-20">
+				<UCard>
+					<div class="text-center py-8">
+						<div class="mb-4 inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800">
+							<UIcon name="i-lucide-folder-open" class="text-3xl text-gray-400" />
+						</div>
+						<h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">No projects yet</h3>
+						<p class="text-gray-500 dark:text-gray-400 mb-6">Get started by creating your first translation project</p>
+						<UButton icon="i-lucide-plus" @click="showCreateModal = true">Create your first project</UButton>
+					</div>
+				</UCard>
 			</div>
 
-			<div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				<NuxtLink
 					v-for="project in projects"
 					:key="project.id"
 					:to="`/projects/${project.id}`"
 				>
-					<UCard class="hover:ring-2 hover:ring-primary transition-all cursor-pointer">
-						<div>
-							<h3 class="font-semibold text-lg">{{ project.name }}</h3>
-							<p class="text-sm text-gray-500 mt-1">{{ project.slug }}</p>
-							<div class="flex items-center gap-2 mt-3">
-								<UBadge variant="subtle">{{ project.sourceLocale }}</UBadge>
+					<UCard class="hover:ring-2 hover:ring-primary-500 dark:hover:ring-primary-400 transition-all cursor-pointer h-full">
+						<div class="flex flex-col h-full">
+							<div class="mb-3">
+								<UIcon name="i-lucide-folder" class="text-2xl text-gray-400 dark:text-gray-500 mb-2" />
+							</div>
+							<h3 class="font-semibold text-lg text-gray-900 dark:text-white">{{ project.name }}</h3>
+							<p class="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-4 font-mono">{{ project.slug }}</p>
+							<div class="flex items-center gap-2 mt-auto">
+								<UBadge variant="subtle" size="sm">
+									<UIcon name="i-lucide-globe" class="mr-1" />
+									{{ project.sourceLocale }}
+								</UBadge>
 							</div>
 						</div>
 					</UCard>

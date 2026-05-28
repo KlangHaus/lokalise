@@ -115,7 +115,7 @@ async function deleteKey(keyId: string, keyName: string) {
 <template>
 	<div>
 		<!-- Toolbar -->
-		<div class="flex items-center gap-3 mb-4">
+		<div class="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
 			<UInput
 				v-model="search"
 				placeholder="Search keys..."
@@ -140,7 +140,7 @@ async function deleteKey(keyId: string, keyName: string) {
 		</div>
 
 		<!-- Table -->
-		<div class="border rounded-lg overflow-auto">
+		<div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-auto">
 			<table class="w-full">
 				<thead>
 					<tr class="bg-gray-100 dark:bg-gray-800">
